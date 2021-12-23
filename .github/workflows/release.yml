@@ -1,0 +1,20 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Publish
+        run: cargo publish --all-features --token ${{ secrets.CRATE_REGISTRY_TOKEN }}
